@@ -65,7 +65,6 @@ class Cart(models.Model):
 
     def save(self, *args, **kwargs):
         if self.id:
-            self.total_quantity = self.products.count()
-            self.final_price = sum([product_item.price for product_item in self.products.all()])
+            self.final_price = sum([product_item.price for product_item in self.products.all()]) * self.total_quantity
         super().save(*args, **kwargs)
 
