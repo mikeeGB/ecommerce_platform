@@ -3,21 +3,13 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-class ShopType(models.Model):
-    TYPE_CHOICES = (
+class ProductCategory(models.Model):
+    CATEGORY_CHOICES = (
         ('clothing', 'Clothing'),
         ('shoes', 'Shoes'),
         ('sport', 'Sport'),
     )
-    type = models.CharField(choices=TYPE_CHOICES, max_length=20, default='clothing')
-
-    def __str__(self):
-        return self.type
-
-
-class ProductCategory(models.Model):
-    CATEGORIES = ShopType.TYPE_CHOICES
-    category = models.CharField(choices=CATEGORIES, max_length=20, default='clothing')
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=20, default='clothing')
 
     def __str__(self):
         return self.category
@@ -40,7 +32,7 @@ class Product(models.Model):
         ('red', 'Red'),
         ('orange', 'Orange'),
     )
-    name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     description = models.TextField()
     image = models.ImageField()
@@ -50,44 +42,30 @@ class Product(models.Model):
     color = models.CharField(choices=COLORS, max_length=20)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Shop(models.Model):
     shop_name = models.CharField(max_length=50)
-    shop_type = models.ForeignKey(ShopType, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    products = models.ManyToManyField(Product)
 
     def __str__(self):
-        return f"{self.shop_name} {self.shop_type}"
+        return f"{self.user.username} - {self.shop_name}"
 
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    products = models.ManyToManyField('CartProduct', blank=True)
+    products = models.ManyToManyField(Product)
     total_quantity = models.PositiveIntegerField(default=0)
+    final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2)
 
     def __str__(self):
-        return f"{self.products.product}"
+        return f"{self.id}"
 
     def save(self, *args, **kwargs):
         if self.id:
-            self.total_products = self.products.count()
-            self.final_price = sum([product_item.final_price for product_item in self.products.all()])
+            self.total_quantity = self.products.count()
+            self.final_price = sum([product_item.price for product_item in self.products.all()])
         super().save(*args, **kwargs)
 
-
-class CartProduct(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cart_item = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    final_price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.product.name
-
-    def save(self, *args, **kwargs):
-        self.final_price = self.quantity * self.product.price
-        super().save(*args, **kwargs)
