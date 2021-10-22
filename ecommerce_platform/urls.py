@@ -23,7 +23,8 @@ from shopapp.views import index_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view),
-    path('api/', include('ecommerce_api.urls'))
+    path('api/', include('ecommerce_api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:
