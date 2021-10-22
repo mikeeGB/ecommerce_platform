@@ -32,6 +32,7 @@ class Product(models.Model):
         ('red', 'Red'),
         ('orange', 'Orange'),
     )
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     description = models.TextField()
