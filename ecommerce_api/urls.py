@@ -1,5 +1,5 @@
 from django.urls import path
-from .main.views import ProductList, ProductDetail, ShopList, ShopDetail
+from ecommerce_api.views import ProductList, ProductDetail, ShopList, ShopDetail
 
 urlpatterns = [
     path('products/<int:pk>/', ProductDetail.as_view(), name='detailcreate'),
