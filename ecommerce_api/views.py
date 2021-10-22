@@ -6,6 +6,10 @@ from .serializers import ProductSerializer, ShopSerializer
 class ProductList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
 
 
 class ProductDetail(generics.RetrieveAPIView):
@@ -16,6 +20,7 @@ class ProductDetail(generics.RetrieveAPIView):
 class ShopList(generics.ListCreateAPIView):
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         product_set = Product.objects.filter(creator=self.request.user).all()
