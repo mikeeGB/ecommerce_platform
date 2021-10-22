@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    creator = serializers.ReadOnlyField(source='creator.username')
 
     class Meta:
         model = Product
