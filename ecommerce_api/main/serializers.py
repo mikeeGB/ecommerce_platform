@@ -13,16 +13,16 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('id', 'creator', 'title', 'category', 'description', 'image', 'price', 'quantity', 'size', 'color')
 
 
 class ShopSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    products = ProductSerializer(many=True)
+    user = serializers.ReadOnlyField(source='user.username')
+    products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Shop
-        fields = '__all__'
+        fields = ('id', 'shop_name', 'user', 'products')
 
 
 class CartSerializer(serializers.ModelSerializer):
