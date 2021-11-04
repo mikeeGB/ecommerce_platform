@@ -18,9 +18,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ShopSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
     products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Shop
-        fields = ('id', 'shop_name', 'user', 'products')
+        fields = ('id', 'shop_name', 'owner', 'products')

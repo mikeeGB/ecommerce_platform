@@ -25,4 +25,4 @@ class ShopViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         product_set = Product.objects.filter(creator=self.request.user).all()
-        serializer.save(user=self.request.user, products=product_set)
+        serializer.save(owner=self.request.user, products=product_set)

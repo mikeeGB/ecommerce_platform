@@ -48,8 +48,8 @@ class Product(models.Model):
 
 class Shop(models.Model):
     shop_name = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product)
 
     def __str__(self):
-        return f"{self.user.username} - {self.shop_name}"
+        return f"{self.owner.username} - {self.shop_name}"
