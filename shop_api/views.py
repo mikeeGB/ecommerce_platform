@@ -1,6 +1,12 @@
+from django.shortcuts import render
 from rest_framework import permissions, viewsets
-from shopapp.models import Product, Shop
+from .models import Product, Shop
 from .serializers import ProductSerializer, ShopSerializer
+
+
+# Create your views here.
+def index_view(request):
+    return render(request, 'index.html')
 
 
 class ProductViewSet(viewsets.ModelViewSet):

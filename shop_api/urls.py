@@ -1,5 +1,5 @@
 from django.urls import path
-from ecommerce_api.views import ProductViewSet, ShopViewSet
+from .views import ProductViewSet, ShopViewSet
 
 urlpatterns = [
     path('products/<int:pk>/', ProductViewSet.as_view({'get': 'retrieve'})),

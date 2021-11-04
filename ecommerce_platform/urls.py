@@ -17,13 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from shopapp.views import index_view
+from shop_api.views import index_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view),
-    path('api/', include('ecommerce_api.urls')),
+    path('api/', include('shop_api.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
 
