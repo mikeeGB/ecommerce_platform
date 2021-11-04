@@ -1,9 +1,9 @@
-from rest_framework import generics, permissions
+from rest_framework import permissions, viewsets
 from shopapp.models import Product, Shop
 from .serializers import ProductSerializer, ShopSerializer
 
 
-class ProductList(generics.ListCreateAPIView):
+class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -12,12 +12,7 @@ class ProductList(generics.ListCreateAPIView):
         serializer.save(creator=self.request.user)
 
 
-class ProductDetail(generics.RetrieveAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
-
-
-class ShopList(generics.ListCreateAPIView):
+class ShopViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -25,8 +20,3 @@ class ShopList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         product_set = Product.objects.filter(creator=self.request.user).all()
         serializer.save(user=self.request.user, products=product_set)
-
-
-class ShopDetail(generics.RetrieveAPIView):
-    serializer_class = ShopSerializer
-    queryset = Shop.objects.all()
