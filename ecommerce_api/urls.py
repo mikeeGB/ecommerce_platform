@@ -1,9 +1,9 @@
 from django.urls import path
-from ecommerce_api.views import ProductList, ProductDetail, ShopList, ShopDetail
+from ecommerce_api.views import ProductViewSet, ShopViewSet
 
 urlpatterns = [
-    path('products/<int:pk>/', ProductDetail.as_view(), name='detailcreate'),
-    path('products/', ProductList.as_view(), name='listcreate'),
-    path('shops/', ShopList.as_view()),
-    path('shops/<int:pk>/', ShopDetail.as_view()),
+    path('products/<int:pk>/', ProductViewSet.as_view({'get': 'retrieve'})),
+    path('products/', ProductViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('shops/', ShopViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('shops/<int:pk>/', ShopViewSet.as_view({'get': 'retrieve'})),
 ]
