@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from shopapp.models import Product, Shop, Cart
+from shopapp.models import Product, Shop
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,12 +24,3 @@ class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = ('id', 'shop_name', 'user', 'products')
-
-
-class CartSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    products = ProductSerializer(many=True)
-
-    class Meta:
-        model = Cart
-        fields = '__all__'

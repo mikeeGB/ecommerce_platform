@@ -53,19 +53,3 @@ class Shop(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.shop_name}"
-
-
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    products = models.ManyToManyField(Product)
-    total_quantity = models.PositiveIntegerField(default=0)
-    final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.id}"
-
-    def save(self, *args, **kwargs):
-        if self.id:
-            self.final_price = sum([product_item.price for product_item in self.products.all()]) * self.total_quantity
-        super().save(*args, **kwargs)
-
