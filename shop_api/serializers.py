@@ -1,26 +1,34 @@
-from django.contrib.auth.models import User
+from .models import NewUser
 from rest_framework import serializers
-from .models import Product, Shop
+from .models import Product, Shop, ShopInfo
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['username']
+        model = NewUser
+        fields = ['email', 'user_name']
+
+
+class ShopInfoSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.user_name')
+
+    class Meta:
+        model = ShopInfo
+        fields = ('id', 'shop_name', 'owner')
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    creator = serializers.ReadOnlyField(source='creator.username')
+    creator = serializers.ReadOnlyField(source='creator.email')
 
     class Meta:
         model = Product
-        fields = ('id', 'creator', 'title', 'category', 'description', 'image', 'price', 'quantity', 'size', 'color')
+        fields = ('id', 'creator', 'shop_inf', 'title', 'category', 'description', 'image', 'price', 'quantity', 'size', 'color')
 
 
 class ShopSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
     products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Shop
-        fields = ('id', 'shop_name', 'owner', 'products')
+        fields = ('id', 'shop_info', 'products')
+
