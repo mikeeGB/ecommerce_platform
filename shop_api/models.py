@@ -1,8 +1,26 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from .managers import CustomAccountManager
 
 
-# Create your models here.
+class NewUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_('email address'), unique=True)
+    user_name = models.CharField(max_length=150, unique=True)
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    objects = CustomAccountManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['user_name', 'first_name']
+
+    def __str__(self):
+        return self.user_name
+
+
 class ProductCategory(models.Model):
     CATEGORY_CHOICES = (
         ('clothing', 'Clothing'),
@@ -32,7 +50,8 @@ class Product(models.Model):
         ('red', 'Red'),
         ('orange', 'Orange'),
     )
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(NewUser, on_delete=models.CASCADE)
+    shop_inf = models.ForeignKey('ShopInfo', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     description = models.TextField()
@@ -46,10 +65,17 @@ class Product(models.Model):
         return self.title
 
 
-class Shop(models.Model):
+class ShopInfo(models.Model):
     shop_name = models.CharField(max_length=50)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(NewUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.shop_name} - {self.owner}"
+
+
+class Shop(models.Model):
+    shop_info = models.ForeignKey(ShopInfo, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product)
 
     def __str__(self):
-        return f"{self.owner.username} - {self.shop_name}"
+        return f"{self.shop_info}"
