@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Product, Shop, ProductCategory, ShopInfo, NewUser
+from .models import Product, Shop, ProductCategory, ShopInfo, CustomUser
 
 
 admin.site.register(Product)
@@ -26,4 +26,4 @@ class UserAdminConfig(UserAdmin):
     )
 
 
-admin.site.register(NewUser, UserAdminConfig)
+admin.site.register(CustomUser, UserAdminConfig)

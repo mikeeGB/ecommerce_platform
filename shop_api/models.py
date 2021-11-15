@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomAccountManager
 
 
-class NewUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
@@ -50,7 +50,7 @@ class Product(models.Model):
         ('red', 'Red'),
         ('orange', 'Orange'),
     )
-    creator = models.ForeignKey(NewUser, on_delete=models.CASCADE)
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     shop_inf = models.ForeignKey('ShopInfo', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
@@ -66,8 +66,8 @@ class Product(models.Model):
 
 
 class ShopInfo(models.Model):
-    shop_name = models.CharField(max_length=50)
-    owner = models.ForeignKey(NewUser, on_delete=models.CASCADE)
+    shop_name = models.CharField(max_length=50, unique=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.shop_name} - {self.owner}"
