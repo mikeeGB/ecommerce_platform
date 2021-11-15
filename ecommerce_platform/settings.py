@@ -136,4 +136,4 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'shop_api.NewUser'
+AUTH_USER_MODEL = 'shop_api.CustomUser'
