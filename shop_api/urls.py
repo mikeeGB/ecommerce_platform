@@ -7,4 +7,5 @@ urlpatterns = [
     path('shops/', ShopViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('shops/<int:pk>/', ShopViewSet.as_view({'get': 'retrieve'})),
     path('shop_info/', ShopInfoViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('shop_info/<int:pk>/', ShopInfoViewSet.as_view({'get': 'retrieve'})),
 ]
