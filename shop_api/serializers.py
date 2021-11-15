@@ -1,11 +1,11 @@
-from .models import NewUser
+from .models import CustomUser
 from rest_framework import serializers
 from .models import Product, Shop, ShopInfo
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NewUser
+        model = CustomUser
         fields = ['email', 'user_name']
 
 
