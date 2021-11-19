@@ -138,5 +138,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'shop_api.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",
+    "http://localhost:3000",
 ]
