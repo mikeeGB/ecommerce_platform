@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from rest_framework import permissions, viewsets, exceptions
+from rest_framework import viewsets, exceptions
 from .models import Product, Shop, ShopInfo
 from .serializers import ProductSerializer, ShopSerializer, ShopInfoSerializer
+from .permissions import ShopInfoWritePermission, ShopWritePermission, ProductWritePermission
 
 
 # Create your views here.
@@ -12,7 +13,7 @@ def index_view(request):
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [ProductWritePermission]
 
     def perform_create(self, serializer):
         if serializer.validated_data['shop_inf'].owner != self.request.user:
@@ -26,7 +27,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ShopViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [ShopWritePermission]
 
     def perform_create(self, serializer):
         shop_inf_id_from_req = int(self.request.data['shop_info'])
@@ -45,9 +46,9 @@ class ShopViewSet(viewsets.ModelViewSet):
 
 
 class ShopInfoViewSet(viewsets.ModelViewSet):
+    permission_classes = [ShopInfoWritePermission]
     serializer_class = ShopInfoSerializer
     queryset = ShopInfo.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
