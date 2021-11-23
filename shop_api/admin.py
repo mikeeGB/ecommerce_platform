@@ -11,7 +11,7 @@ admin.site.register(ShopInfo)
 
 class UserAdminConfig(UserAdmin):
     ordering = ('-date_joined', )
-    list_display = ('email', 'user_name', 'first_name', 'is_active', 'is_staff')
+    list_display = ('email', 'id', 'user_name', 'first_name', 'is_active', 'is_staff')
 
     fieldsets = (
         (None, {'fields': ('email', 'user_name', 'first_name',)}),
