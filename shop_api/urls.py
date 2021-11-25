@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ProductViewSet, ShopViewSet, ShopInfoViewSet
-from .authentication.views import CustomUserCreate
+from .authentication.views import CustomUserCreate, BlacklistToken
 
 urlpatterns = [
     path('products/', ProductViewSet.as_view({'get': 'list', 'post': 'create'})),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('shop_info/<int:pk>/', ShopInfoViewSet.as_view({'get': 'retrieve', 'put': 'update',
                                                          'patch': 'partial_update', 'delete': 'destroy'})),
     path('user/register/', CustomUserCreate.as_view(), name='create_user'),
+    path('user/logout/blacklist/', BlacklistToken.as_view(), name='blacklist'),
 ]
