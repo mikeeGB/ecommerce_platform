@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from shop_api.models import CustomUser
-from django.contrib.auth.hashers import make_password
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
