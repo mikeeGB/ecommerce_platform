@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, exceptions
 from .models import Product, Shop, ShopInfo
 from .serializers import ProductSerializer, ShopSerializer, ShopInfoSerializer
@@ -28,6 +28,11 @@ class ShopViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
     permission_classes = [ShopWritePermission]
+
+    def get_object(self, **kwargs):
+        """Get individual shop, using shop_info pk"""
+        shop = self.kwargs.get('pk')  # id from url
+        return get_object_or_404(Shop, shop_info=shop)
 
     def perform_create(self, serializer):
         shop_inf_id_from_req = int(self.request.data['shop_info'])
