@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets, exceptions
+from rest_framework import viewsets, exceptions, filters
 from .models import Product, Shop, ShopInfo
 from .serializers import ProductSerializer, ShopSerializer, ShopInfoSerializer
 from .permissions import ShopInfoWritePermission, ShopWritePermission, ProductWritePermission
@@ -14,6 +14,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     permission_classes = [ProductWritePermission]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['$title']
 
     def perform_create(self, serializer):
         if serializer.validated_data['shop_inf'].owner != self.request.user:
