@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets, exceptions, filters
+from rest_framework import viewsets, exceptions, filters, generics
 from .models import Product, Shop, ShopInfo
 from .serializers import ProductSerializer, ShopSerializer, ShopInfoSerializer
 from .permissions import ShopInfoWritePermission, ShopWritePermission, ProductWritePermission
@@ -24,6 +24,14 @@ class ProductViewSet(viewsets.ModelViewSet):
                 detail="You don't have a permission. Choose your shop"
             )
         serializer.save(creator=self.request.user)
+
+
+class ProductsOfCurrentUser(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Product.objects.filter(creator=user)
 
 
 class ShopViewSet(viewsets.ModelViewSet):
