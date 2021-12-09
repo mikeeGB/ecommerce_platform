@@ -34,6 +34,21 @@ class ProductsOfCurrentUser(generics.ListAPIView):
         return Product.objects.filter(creator=user)
 
 
+# class ShopOfCurrentUser(generics.ListAPIView):
+#     serializer_class = ShopSerializer
+#
+#     def get_queryset(self):
+#         user = self.request.user
+#         return Shop.objects.filter(shop_info__owner=user)
+
+class ShopInfoOfCurrentUser(generics.ListAPIView):
+    serializer_class = ShopInfoSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return ShopInfo.objects.filter(owner=user)
+
+
 class ShopViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()

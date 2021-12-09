@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProductViewSet, ShopViewSet, ShopInfoViewSet, ProductsOfCurrentUser
+from .views import ProductViewSet, ShopViewSet, ShopInfoViewSet, ProductsOfCurrentUser, ShopInfoOfCurrentUser
 from .authentication.views import CustomUserCreate, BlacklistToken
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
 
     # listing of current users
     path('my_products/', ProductsOfCurrentUser.as_view()),
+    path('my_shops/', ShopInfoOfCurrentUser.as_view()),
 
     # Creating, editing and deleting items
     # 1) ShopInfoViewSet
