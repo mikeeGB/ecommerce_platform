@@ -30,6 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ShopSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True, read_only=True)
     shop_name = serializers.ReadOnlyField(source='shop_info.shop_name')
+    owner = serializers.ReadOnlyField(source='shop_info.owner.user_name')
 
     def create(self, validated_data):
         print(validated_data)
@@ -48,4 +49,4 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shop
-        fields = ('id', 'shop_info', 'shop_name', 'products')
+        fields = ('id', 'shop_info', 'shop_name', 'owner', 'products')
