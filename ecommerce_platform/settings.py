@@ -179,3 +179,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+# EMAIL BACKEND CONFIG -- gmail settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ecommerce.platform.service@gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = 'irzqhyjuerlszjms'
+DEFAULT_FROM_EMAIL = 'ecommerce.platform.service@gmail.com'
