@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from shop_api.models import CustomUser
-from shop_api.celery_config import tasks
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -14,6 +13,5 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
-            tasks.send_email_task.delay(instance.user_name, instance.email)
         instance.save()
         return instance
