@@ -1,0 +1,11 @@
+services:
+  python:
+#    image: python:3.9
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:  # mounting data to docker
+      - .:/ecommerce_platform
+
+    ports:
+      - 8000:8000
