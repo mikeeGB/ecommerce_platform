@@ -1,3 +1,6 @@
+volumes:
+  pgdata:
+
 services:
   python:
 #    image: python:3.9
@@ -6,6 +9,19 @@ services:
       dockerfile: Dockerfile
     volumes:  # mounting data to docker
       - .:/ecommerce_platform
-
     ports:
       - 8000:8000
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: test_ecommerce
+      POSTGRES_DB: test_ecommerce_db
+      POSTGRES_PASSWORD: test_ecommerce
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+
