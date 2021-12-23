@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from .serializers import RegisterUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from shop_api.celery_config import tasks
+# from shop_api.celery_config import tasks
 
 
 class CustomUserCreate(APIView):
@@ -15,7 +15,7 @@ class CustomUserCreate(APIView):
         if registration_serializer.is_valid():
             custom_user = registration_serializer.save()
             if custom_user:
-                tasks.send_email_task.delay(custom_user.user_name, custom_user.email)
+                # tasks.send_email_task.delay(custom_user.user_name, custom_user.email)
                 return Response(status=status.HTTP_201_CREATED)
         return Response(registration_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
