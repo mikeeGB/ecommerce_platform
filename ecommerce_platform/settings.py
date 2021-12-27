@@ -82,6 +82,7 @@ WSGI_APPLICATION = 'ecommerce_platform.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # docker set up
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'test_ecommerce_db',
