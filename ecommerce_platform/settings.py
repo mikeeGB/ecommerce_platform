@@ -91,6 +91,17 @@ DATABASES = {
         'HOST': 'postgres',
         'PORT': '5432',
     }
+
+    # local db for making sql script
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'local_ecommerce_db',
+    #     'USER': 'local_ecommerce',
+    #     'PASSWORD': 'local_ecommerce',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
+
     # 'default': {
     #         'ENGINE': 'django.db.backends.sqlite3',
     #         'NAME': BASE_DIR / 'db.sqlite3',
