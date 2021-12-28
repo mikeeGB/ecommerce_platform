@@ -14,7 +14,7 @@ services:
     command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 5; done; python manage.py runserver 0.0.0.0:8000'
     depends_on:
       - postgres
-
+      - rabbitmq
 
   postgres:
     image: postgres:14
@@ -29,3 +29,7 @@ services:
     volumes:  # Use script to initialize db, mount pgdata to keep data
       - ./sqls/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata:/var/lib/postgresql/data
+
+  # rabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.9
