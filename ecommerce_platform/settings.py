@@ -208,3 +208,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = 'irzqhyjuerlszjms'
 DEFAULT_FROM_EMAIL = 'ecommerce.platform.service@gmail.com'
+
+
+# celery config for docker
+CELERY_BROKER_URL = "amqp://rabbitmq"
+
