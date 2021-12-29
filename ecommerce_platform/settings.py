@@ -95,7 +95,7 @@ DATABASES = {
     # local db for making sql script
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'local_ecommerce_db',
+    #     'NAME': 'ecommerce_fill_db',
     #     'USER': 'local_ecommerce',
     #     'PASSWORD': 'local_ecommerce',
     #     'HOST': 'localhost',
