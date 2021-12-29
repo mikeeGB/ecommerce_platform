@@ -2,7 +2,7 @@ volumes:
   pgdata:
 
 services:
-  python: &python
+  python:
 #    image: python:3.9
     build:
       context: .
@@ -37,9 +37,8 @@ services:
 
   # celery worker service - runs worker in django app
   celery_worker:
-    <<: *python
+    build: .
     command: celery -A ecommerce_platform worker -l info
-    ports: []  # overwrite ports of python service
     depends_on:
       - rabbitmq
       - postgres
