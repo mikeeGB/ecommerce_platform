@@ -2,19 +2,20 @@ volumes:
   pgdata:
 
 services:
-  python:
+  python: &python
 #    image: python:3.9
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:  # mounting data to docker. Volume for sqlite
-      - .:/ecommerce_platform
+#    volumes:  # mounting data to docker. Volume for sqlite
+#      - .:/ecommerce_platform
     ports:
       - 8000:8000
     command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 5; done; python manage.py runserver 0.0.0.0:8000'
     depends_on:
       - postgres
       - rabbitmq
+      - celery_worker
 
   postgres:
     image: postgres:14
@@ -33,3 +34,12 @@ services:
   # rabbitMQ
   rabbitmq:
     image: rabbitmq:3.9
+
+  # celery worker service - runs worker in django app
+  celery_worker:
+    <<: *python
+    command: celery -A ecommerce_platform worker -l info
+    ports: []  # overwrite ports of python service
+    depends_on:
+      - rabbitmq
+      - postgres
