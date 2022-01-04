@@ -10,19 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from .configuration import configs
 from datetime import timedelta
+import environ
+
+
+# django-environ settings
+env = environ.Env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# path to env settings
+env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = configs.secret_key
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,14 +92,7 @@ WSGI_APPLICATION = 'ecommerce_platform.wsgi.application'
 
 DATABASES = {
     # docker set up
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test_ecommerce_db',
-        'USER': 'test_ecommerce',
-        'PASSWORD': 'test_ecommerce',
-        'HOST': 'postgres',
-        'PORT': '5432',
-    }
+    'default': env.db()
 
     # local db for making sql script
     # 'default': {
@@ -102,10 +104,6 @@ DATABASES = {
     #     'PORT': '5432',
     # }
 
-    # 'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': BASE_DIR / 'db.sqlite3',
-    #     }
 }
 
 
@@ -203,11 +201,11 @@ SIMPLE_JWT = {
 # EMAIL BACKEND CONFIG -- gmail settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ecommerce.platform.service@gmail.com'
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = 'irzqhyjuerlszjms'
-DEFAULT_FROM_EMAIL = 'ecommerce.platform.service@gmail.com'
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
 
 
 # celery config for docker
